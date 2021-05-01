@@ -69,3 +69,39 @@ class Solver:
                 table.add_row(["misclassified", misclassified])
                 table.add_row(["a", a])
                 print(table)
+
+    # tutorial 02 -- sequential perceptron learning algorithm
+    def sequential_perceptron_learning_algorithm(self, epoch, x, classx, a, eta, sample_normalisation):
+        classx_ = np.ones(np.size(x, 1))
+        y = np.vstack((classx_, x))
+        if sample_normalisation:
+            for i in range(len(classx_)):
+                if classx[i] < 0:
+                    y[:, i] = -(y[:, i])
+            for epochi in range(epoch):
+                table = PrettyTable(["epoch=" + repr(epochi), "result"])
+                table.title = "---- sequential perceptron learning algorithm ----"
+                table.align = "l"
+                for i in range(np.size(y, 1)):
+                    gx = np.dot(np.transpose(a), y[:, i])
+                    if gx <= 0:
+                        a = a + eta * y[:, i]
+                    table.add_row(["gx", gx])
+                    table.add_row(["a", a])
+                print(table)
+        else:
+            for epochi in range(epoch):
+                table = PrettyTable(["epoch=" + repr(epochi), "result"])
+                table.title = "--- sequential perceptron learning algorithm ---"
+                table.align = "l"
+                for i in range(np.size(y, 1)):
+                    gx = np.dot(np.transpose(a), y[:, i])
+                    if gx > 0:
+                        classgx = 1
+                    else:
+                        classgx = -1
+                    if classgx != classx[i]:
+                        a = a + eta * classx[i] * y[:, i]
+                    table.add_row(["gx", gx])
+                    table.add_row(["a", a])
+                print(table)

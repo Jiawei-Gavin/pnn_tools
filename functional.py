@@ -36,6 +36,15 @@ class Solver:
         table.add_row(["gx", gx[0][0]])
         print(table)
 
+    # tutorial 02 -- cal gx(give a, x)
+    def cal_gx(self, a, x):
+        y = np.vstack((1, x))
+        gx = np.dot(np.transpose(a), y)
+        table = PrettyTable(["", "result"])
+        table.title = "---- cal gx(give a, x) ----"
+        table.add_row(["gx", gx[0][0]])
+        print(table)
+
     # tutorial 02 -- batch perceptron learning algorithm
     def batch_perceptron_learning_algorithm(self, epoch, x, classx, a, eta, sample_normalisation):
         classx_ = np.ones(np.size(x, 1))

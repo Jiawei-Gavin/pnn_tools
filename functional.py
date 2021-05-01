@@ -25,19 +25,15 @@ class Solver:
         print(table)
 
     # tutorial 02 -- cal gx(give w, x, w0)
-    def cal_gx(self, w, x, w0):
-        w0 = np.zeros((1, np.size(w, 1))) + w0
-        w_w0 = np.vstack((w0, w))
-        x1 = np.ones((1, np.size(x, 1)))
-        x_x1 = np.vstack((x1, x))
-        gx = np.dot(np.transpose(w_w0), x_x1)
+    def cal_gx_wxw0(self, w, x, w0):
+        gx = np.dot(np.transpose(w), x) + w0
         table = PrettyTable(["", "result"])
         table.title = "---- cal gx(give - w, x, w0) ----"
         table.add_row(["gx", gx[0][0]])
         print(table)
 
     # tutorial 02 -- cal gx(give a, x)
-    def cal_gx(self, a, x):
+    def cal_gx_ax(self, a, x):
         y = np.vstack((1, x))
         gx = np.dot(np.transpose(a), y)
         table = PrettyTable(["", "result"])

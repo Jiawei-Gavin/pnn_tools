@@ -24,6 +24,18 @@ class Solver:
         table.add_row(["f1_score", f1_score])
         print(table)
 
+    # tutorial 02 -- cal gx(give w, x, w0)
+    def cal_gx(self, w, x, w0):
+        w0 = np.zeros((1, np.size(w, 1))) + w0
+        w_w0 = np.vstack((w0, w))
+        x1 = np.ones((1, np.size(x, 1)))
+        x_x1 = np.vstack((x1, x))
+        gx = np.dot(np.transpose(w_w0), x_x1)
+        table = PrettyTable(["", "result"])
+        table.title = "---- cal gx(give - w, x, w0) ----"
+        table.add_row(["gx", gx[0][0]])
+        print(table)
+
     # tutorial 02 -- batch perceptron learning algorithm
     def batch_perceptron_learning_algorithm(self, epoch, x, classx, a, eta, sample_normalisation):
         classx_ = np.ones(np.size(x, 1))
@@ -37,11 +49,11 @@ class Solver:
                 table.title = "---- batch perceptron learning algorithm ----"
                 table.align = "l"
                 gx = np.dot(np.transpose(a), y)
-                misclassified = np.zeros(np.size(gx))
-                for i in range(np.size(gx)):
+                misclassified = np.zeros(np.size([gx], 1))
+                for i in range(np.size([gx], 1)):
                     if gx[i] <= 0:
                         misclassified[i] = 1
-                for i in range(np.size(gx)):
+                for i in range(np.size([gx], 1)):
                     if misclassified[i] == 1:
                         a = a + eta * y[:, i]
                 table.add_row(["gx", gx])
@@ -54,15 +66,15 @@ class Solver:
                 table.title = "---- batch perceptron learning algorithm ----"
                 table.align = "l"
                 gx = np.dot(np.transpose(a), y)
-                misclassified = np.zeros(np.size(gx))
-                for i in range(np.size(gx)):
+                misclassified = np.zeros(np.size([gx], 1))
+                for i in range(np.size([gx], 1)):
                     if gx[i] > 0:
                         classgx = 1
                     else:
                         classgx = -1
                     if classgx != classx[i]:
                         misclassified[i] = 1
-                for i in range(np.size(gx)):
+                for i in range(np.size([gx], 1)):
                     if misclassified[i] == 1:
                         a = a + eta * classx[i] * y[:, i]
                 table.add_row(["gx", gx])

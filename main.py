@@ -47,3 +47,14 @@ if __name__ == '__main__':
     # a = np.transpose([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
     # eta = 1
     # solver.sequential_multiclass_perceptron_learning_algorithm(epoch, x, classx, a, eta)
+
+    # tutorial 02 -- sequential WidrowHoff learning algorithm
+    # x = np.transpose([[0, 2], [1, 2], [2, 1], [-3, 1], [-2, -1], [-3, -2]])
+    # epoch = 2
+    # classx = [1, 1, 1, -1, -1, -1]
+    # a = np.transpose([1, 0, 0])
+    # eta = 0.1
+    # b = [1, 1, 1, 1, 1, 1]
+    # solver.sequential_WidrowHoff_learning_algorithm(epoch, x, classx, a, eta, b)
+
+

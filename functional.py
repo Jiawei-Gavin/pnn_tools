@@ -46,7 +46,7 @@ class Solver:
         table.title = "---- batch perceptron learning algorithm ----"
         table.align = "l"
         if sample_normalisation:
-            for i in range(len(classx_)):
+            for i in range(len(classx)):
                 if classx[i] < 0:
                     y[:, i] = -(y[:, i])
             for epochi in range(epoch):
@@ -85,7 +85,7 @@ class Solver:
         table.align = "l"
         iteration = 1
         if sample_normalisation:
-            for i in range(len(classx_)):
+            for i in range(len(classx)):
                 if classx[i] < 0:
                     y[:, i] = -(y[:, i])
             for epochi in range(epoch):
@@ -135,6 +135,29 @@ class Solver:
                 result.append((iteration, y[:, i], gx, gxclass, w, a1, a2, a3))
                 iteration = iteration + 1
 
+        for row in result:
+            table.add_row(row)
+        print(table)
+
+    # tutorial 02 -- sequential WidrowHoff learning algorithm
+    def sequential_WidrowHoff_learning_algorithm(self, epoch, x, classx, a, eta, b):
+        classx_ = np.ones(np.size(x, 1))
+        y = np.vstack((classx_, x))
+        for i in range(len(classx)):
+            if classx[i] < 0:
+                y[:, i] = -(y[:, i])
+        table = PrettyTable(('iteration', 'a', 'y', 'ay', 'a_new'))
+        table.title = "--- sequential WidrowHoff learning algorithm ---"
+        table.align = "l"
+        result = []
+        iteration = 1
+        for epochi in range(epoch):
+            for i in range(np.size(y, 1)):
+                a_prev = a
+                ay = np.dot(a, y[:, i])
+                a = a + eta * (b[i] - ay) * y[:, i]
+                result.append((iteration, np.round(a_prev, 4), np.round(y[:, i], 4), np.round(ay, 4), np.round(a, 4)))
+                iteration = iteration + 1
         for row in result:
             table.add_row(row)
         print(table)

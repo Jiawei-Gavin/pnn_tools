@@ -1,5 +1,6 @@
 from prettytable import PrettyTable
 import numpy as np
+import copy
 
 
 class Solver:
@@ -54,7 +55,7 @@ class Solver:
                 table.title = "---- batch perceptron learning algorithm ----"
                 table.align = "l"
                 gx = np.dot(np.transpose(a), y)
-                misclassified = np.zeros(np.size([gx], 1))
+                misclassified = np.zeros(np.size([gx]))
                 for i in range(np.size([gx], 1)):
                     if gx[i] <= 0:
                         misclassified[i] = 1
@@ -71,7 +72,7 @@ class Solver:
                 table.title = "---- batch perceptron learning algorithm ----"
                 table.align = "l"
                 gx = np.dot(np.transpose(a), y)
-                misclassified = np.zeros(np.size([gx], 1))
+                misclassified = np.zeros(np.size([gx]))
                 for i in range(np.size([gx], 1)):
                     if gx[i] > 0:
                         classgx = 1
@@ -122,3 +123,33 @@ class Solver:
                     table.add_row(["gx", gx])
                     table.add_row(["a", a])
                 print(table)
+
+    # tutorial 02 -- sequential multiclass perceptron learning algorithm
+    def sequential_multiclass_perceptron_learning_algorithm(self, epoch, x, classx, a, eta):
+        classx_ = np.ones(np.size(x, 1))
+        y = np.vstack((classx_, x))
+        table = PrettyTable(["iteration", "y", "gx", "gxclass", "class", "a1", "a2", "a3"])
+        table.title = "--- sequential multiclass perceptron learning algorithm ---"
+        table.align = "l"
+        result = []
+        iteration = 1
+        for epochi in range(epoch):
+            for i in range(np.size(y, 1)):
+                gx = np.zeros(np.size(a, 1))
+                for ci in range(np.size(a, 1)):
+                    gx[ci] = np.dot(np.transpose(a[:, ci]), y[:, i])
+                gx_index = [j[0] for j in sorted(enumerate(gx), key=lambda k: k[1])]
+                gxclass = gx_index[-1] + 1
+                w = classx[i]
+                if gxclass != w:
+                    a[:, w - 1] = a[:, w - 1] + eta * y[:, i]
+                    a[:, gxclass - 1] = a[:, gxclass - 1] - eta * y[:, i]
+                a1 = copy.deepcopy(a[:, 0])
+                a2 = copy.deepcopy(a[:, 1])
+                a3 = copy.deepcopy(a[:, 2])
+                result.append((iteration, y[:, i], gx, gxclass, w, a1, a2, a3))
+                iteration = iteration + 1
+
+        for row in result:
+            table.add_row(row)
+        print(table)

@@ -33,4 +33,10 @@ if __name__ == '__main__':
     # eta = 1
     # solver.sequential_perceptron_learning_algorithm(epoch, x, classx, a, eta, bool(1))
 
-
+    # tutorial 02 -- sequential multiclass perceptron learning algorithm
+    x = np.transpose([[1, 1], [2, 0], [0, 2], [-1, 1], [-1, -1]])
+    epoch = 3
+    classx = [1, 1, 2, 2, 3]
+    a = np.transpose([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    eta = 1
+    solver.sequential_multiclass_perceptron_learning_algorithm(epoch, x, classx, a, eta)

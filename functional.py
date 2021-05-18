@@ -17,7 +17,7 @@ class Solver:
         # f1_score = (2*recall*precision)/(recall+precision)
         table = PrettyTable(["error_rate", "accuracy", "recall", "precision", "f1_score"])
         table.title = "---- confusion matrix ----"
-        table.align = "l"
+        table.align = "c"
         table.add_row([error_rate, accuracy, recall, precision, f1_score])
         print(table)
 
@@ -44,7 +44,7 @@ class Solver:
         y = np.vstack((classx_, x))
         table = PrettyTable(["epoch", "gx", "misclassified", "a"])
         table.title = "---- batch perceptron learning algorithm ----"
-        table.align = "l"
+        table.align = "c"
         if sample_normalisation:
             for i in range(len(classx)):
                 if classx[i] < 0:
@@ -82,7 +82,7 @@ class Solver:
         y = np.vstack((classx_, x))
         table = PrettyTable(["iteration", "gx", "a"])
         table.title = "---- sequential perceptron learning algorithm ----"
-        table.align = "l"
+        table.align = "c"
         iteration = 1
         if sample_normalisation:
             for i in range(len(classx)):
@@ -115,7 +115,7 @@ class Solver:
         y = np.vstack((classx_, x))
         table = PrettyTable(["iteration", "y", "gx", "gxclass", "class", "a1", "a2", "a3"])
         table.title = "--- sequential multiclass perceptron learning algorithm ---"
-        table.align = "l"
+        table.align = "c"
         result = []
         iteration = 1
         for epochi in range(epoch):
@@ -148,7 +148,7 @@ class Solver:
                 y[:, i] = -(y[:, i])
         table = PrettyTable(('iteration', 'a', 'y', 'ay', 'a_new'))
         table.title = "--- sequential WidrowHoff learning algorithm ---"
-        table.align = "l"
+        table.align = "c"
         result = []
         iteration = 1
         for epochi in range(epoch):
@@ -160,4 +160,32 @@ class Solver:
                 iteration = iteration + 1
         for row in result:
             table.add_row(row)
+        print(table)
+
+    # tutorial 03 -- sequential Delta learning algorithm
+    def sequential_Delta_learning_algorithm(self, epoch, w, x, t, eta):
+        xcol = np.ones(np.size(x, 1))
+        x = np.vstack((xcol, x))
+
+        def transfer_function(a, b):
+            ab = np.dot(a, b)
+            if ab > 0:
+                return 1
+            elif ab == 0:
+                return 0.5
+            else:
+                return 0
+
+        table = PrettyTable(('iteration', 'x', 't', 'y=H(wx)', 't-y', "delta", "w"))
+        table.title = "--- sequential WidrowHoff learning algorithm ---"
+        table.align = "c"
+        iteration = 1
+        for epochi in range(epoch):
+            for i in range(len(xcol)):
+                y = transfer_function(w, x[:, i])
+                t_y = t[i] - y
+                delta = eta * t_y * np.transpose(x[:, i])
+                w = w + delta
+                table.add_row([iteration, x[:, i], t[i], y, t_y, delta, w])
+                iteration = iteration + 1
         print(table)

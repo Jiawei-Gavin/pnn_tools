@@ -3,6 +3,16 @@ import numpy as np
 import copy
 
 
+def Heaviside(w, x):
+    wx = np.dot(w, x)
+    if wx > 0:
+        return 1
+    elif wx == 0:
+        return 0.5
+    else:
+        return 0
+
+
 class Solver:
     def __init__(self):
         pass
@@ -162,30 +172,45 @@ class Solver:
             table.add_row(row)
         print(table)
 
-    # tutorial 03 -- sequential Delta learning algorithm
-    def sequential_Delta_learning_algorithm(self, epoch, w, x, t, eta):
-        xcol = np.ones(np.size(x, 1))
-        x = np.vstack((xcol, x))
-
-        def transfer_function(a, b):
-            ab = np.dot(a, b)
-            if ab > 0:
-                return 1
-            elif ab == 0:
-                return 0.5
-            else:
-                return 0
+    # tutorial 03 -- sequential Delta learning rule
+    def sequential_Delta_learning_rule(self, epoch, w, x, t, eta):
+        x_ = np.ones(np.size(x, 1))
+        x = np.vstack((x_, x))
 
         table = PrettyTable(('iteration', 'x', 't', 'y=H(wx)', 't-y', "delta", "w"))
-        table.title = "--- sequential WidrowHoff learning algorithm ---"
+        table.title = "--- sequential Delta learning rule ---"
         table.align = "c"
         iteration = 1
         for epochi in range(epoch):
-            for i in range(len(xcol)):
-                y = transfer_function(w, x[:, i])
+            for i in range(len(x_)):
+                y = Heaviside(w, x[:, i])
                 t_y = t[i] - y
                 delta = eta * t_y * np.transpose(x[:, i])
                 w = w + delta
                 table.add_row([iteration, x[:, i], t[i], y, t_y, delta, w])
                 iteration = iteration + 1
+        print(table)
+
+    # tutorial 03 -- batch Delta learning rule
+    def batch_Delta_learning_rule(self, epoch, w, x, t, eta):
+        x_row = np.size(x, 0)
+        x_col = np.size(x, 1)
+        x_ = np.ones(x_col)
+        x = np.vstack((x_, x))
+        table = PrettyTable(('iteration', 'x', 't', 'y=H(wx)', 't-y', "delta",))
+        table.title = "--- batch Delta learning rule ---"
+        table.align = "c"
+        iteration = 1
+        for epochi in range(epoch):
+            delta = np.zeros((x_col, x_row + 1))
+            for i in range(len(x_)):
+                y = Heaviside(w, x[:, i])
+                t_y = t[i] - y
+                delta[i, :] = eta * t_y * np.transpose(x[:, i])
+                table.add_row([iteration, x[:, i], t[i], y, t_y, delta[i, :]])
+
+                iteration = iteration + 1
+            sum_delta = sum(delta[:])
+            w = w + sum_delta
+            table.add_row(["sum_delta", sum_delta, "w", w, "", ""])
         print(table)

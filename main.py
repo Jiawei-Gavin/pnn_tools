@@ -57,19 +57,27 @@ if __name__ == '__main__':
     # b = [1, 1, 1, 1, 1, 1]
     # solver.sequential_WidrowHoff_learning_algorithm(epoch, x, classx, a, eta, b)
 
-    # tutorial 03 -- sequential Delta learning algorithm
+    # tutorial 03 -- sequential Delta learning rule
     # x = np.transpose([[0], [1]])
     # w = [-1.5, 2]
     # epoch = 6
     # eta = 1
     # t = [1, 0]
-    # solver.sequential_Delta_learning_algorithm(epoch, w, x, t, eta)
+    # solver.sequential_Delta_learning_rule(epoch, w, x, t, eta)
 
     # x = np.transpose([[0, 0], [0, 1], [1, 0], [1, 1]])
     # w = [0.5, 1, 1]
     # epoch = 5
     # eta = 1
     # t = [0, 0, 0, 1]
-    # solver.sequential_Delta_learning_algorithm(epoch, w, x, t, eta)
+    # solver.sequential_Delta_learning_rule(epoch, w, x, t, eta)
+
+    # tutorial 03 -- batch Delta learning rule
+    x = np.transpose([[0], [1]])
+    w = [-1.5, 2]
+    epoch = 6
+    eta = 1
+    t = [1, 0]
+    solver.batch_Delta_learning_rule(epoch, w, x, t, eta)
 
 

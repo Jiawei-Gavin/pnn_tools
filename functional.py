@@ -1,6 +1,9 @@
 from prettytable import PrettyTable
 import numpy as np
 import copy
+import math
+
+np.set_printoptions(suppress=True)
 
 
 def Heaviside(w, x):
@@ -11,6 +14,14 @@ def Heaviside(w, x):
         return 0.5
     else:
         return 0
+
+
+def Symmetric_sigmoid(hidden_x):
+    return 2 / (1 + np.exp(-2 * hidden_x)) - 1
+
+
+def Logarithmic_sigmoid(output_x):
+    return 1 / (1 + np.exp(-1 * output_x))
 
 
 class Solver:
@@ -197,7 +208,7 @@ class Solver:
         x_col = np.size(x, 1)
         x_ = np.ones(x_col)
         x = np.vstack((x_, x))
-        table = PrettyTable(('iteration', 'x', 't', 'y=H(wx)', 't-y', "delta",))
+        table = PrettyTable(('iteration', 'x', 't', 'y=H(wx)', 't-y', "delta"))
         table.title = "--- batch Delta learning rule ---"
         table.align = "c"
         iteration = 1
@@ -213,4 +224,63 @@ class Solver:
             sum_delta = sum(delta[:])
             w = w + sum_delta
             table.add_row(["sum_delta", sum_delta, "w", w, "", ""])
+        print(table)
+
+    # tutorial 04 -- neural network
+    def neural_network(self, x, wji, wj0, wkj, wk0, function1="Symmetric_sigmoid", function2="Logarithmic_sigmoid"):
+        input_x = x
+        hidden_x = np.dot(wji, input_x) + wj0
+        if function1 == "Symmetric_sigmoid":
+            hidden_y = Symmetric_sigmoid(hidden_x)
+        else:
+            hidden_y = Logarithmic_sigmoid(hidden_x)
+        y = hidden_y
+        output_x = np.dot(wkj, hidden_y) + wk0
+        if function2 == "Logarithmic_sigmoid":
+            output_z = Logarithmic_sigmoid(output_x)
+        else:
+            output_z = Symmetric_sigmoid(output_x)
+        table = PrettyTable(('pattern', 'y', 'z'))
+        table.title = "--- neural network ---"
+        table.align = "c"
+        for i in range(np.size(output_z, 1)):
+            table.add_row([i + 1, np.round(y[:, i], 4), np.round(output_z[:, i], 4)])
+        print(table)
+
+    # tutorial 04 -- RBF neural network -- give x,c,t -- compute w
+    def RBF_neural_network_w(self, x, c, t):
+        pmax = np.linalg.norm(c)
+        yx = np.ones((np.size(x, 1), np.size(x, 0) + 1))
+        for i in range(np.size(x, 1)):
+            yx[:, 0][i] = math.exp(
+                -np.power(np.linalg.norm(x[:, i] - c[0]), 2) / (2 * math.pow((pmax / math.sqrt(2 * 2)), 2)))
+            yx[:, 1][i] = math.exp(
+                -np.power(np.linalg.norm(x[:, i] - c[1]), 2) / (2 * math.pow((pmax / math.sqrt(2 * 2)), 2)))
+        w = np.dot(np.linalg.inv(np.dot(np.transpose(yx), yx)), np.dot(np.transpose(yx), t))
+        table = PrettyTable(('yx', 'w'))
+        table.title = "--- RBF neural network -- give x,c,t -- compute w ---"
+        table.align = "c"
+        table.add_row([yx, w])
+        print(table)
+
+    # tutorial 04 -- RBF neural network -- give x,c,w -- compute class
+    def RBF_neural_network_class(self, x, c, w):
+        pmax = np.linalg.norm(c)
+        yx = np.ones((np.size(x, 1), np.size(x, 0) + 1))
+        for i in range(np.size(x, 1)):
+            yx[:, 0][i] = math.exp(
+                -np.power(np.linalg.norm(x[:, i] - c[0]), 2) / (2 * math.pow((pmax / math.sqrt(2 * 2)), 2)))
+            yx[:, 1][i] = math.exp(
+                -np.power(np.linalg.norm(x[:, i] - c[1]), 2) / (2 * math.pow((pmax / math.sqrt(2 * 2)), 2)))
+        z = np.dot(yx, w)
+        clazz = np.zeros((np.size(z), 1))
+        for i in range(np.size(z)):
+            if z[i] > 0.5:
+                clazz[i] = 1
+            else:
+                clazz[i] = 0
+        table = PrettyTable(('yx', 'z', 'class'))
+        table.title = "--- RBF neural network -- give x,c,w -- compute class ---"
+        table.align = "c"
+        table.add_row([yx, z, clazz])
         print(table)

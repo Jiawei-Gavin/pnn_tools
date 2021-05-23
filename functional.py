@@ -348,3 +348,22 @@ class Solver:
         table.align = "c"
         table.add_row([m[:, 0], m[:, 1], sb, sw, Jw])
         print(table)
+
+    # tutorial 07 -- Extreme Learning Machine
+    def Extreme_Learning_Machine(self, V, w, x):
+        x_ = np.ones(np.size(x, 1))
+        X = np.vstack((x_, x))
+        VX = np.dot(V, X)
+        Y = copy.copy(VX)
+        for i in range(np.size(Y, 0)):
+            for j in range(np.size(Y, 1)):
+                if Y[i][j] > 0:
+                    Y[i][j] = 1
+                else:
+                    Y[i][j] = 0
+        Z = np.dot(w, np.vstack((x_, Y)))
+        table = PrettyTable(('X', "VX", 'Y', 'Z'))
+        table.title = "--- Extreme Learning Machine ---"
+        table.align = "c"
+        table.add_row([X, VX, Y, Z])
+        print(table)

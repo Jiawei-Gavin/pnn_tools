@@ -122,8 +122,16 @@ if __name__ == '__main__':
     # solver.batch_Ojas_Learning_rule(x, w, eta, epoch)
 
     # tutorial 07 -- Fishers method -- LDA
-    x = np.transpose([[1, 2], [2, 1], [3, 3], [6, 5], [7, 8]])
-    classx = [1, 1, 1, 2, 2]
-    # wt = [-1, 5]
-    wt = [2, -3]
-    solver.Fishers_method(x, classx, wt)
+    # x = np.transpose([[1, 2], [2, 1], [3, 3], [6, 5], [7, 8]])
+    # classx = [1, 1, 1, 2, 2]
+    # # wt = [-1, 5]
+    # wt = [2, -3]
+    # solver.Fishers_method(x, classx, wt)
+
+    # tutorial 07 -- Extreme Learning Machine
+    x = np.transpose([[0, 0], [0, 1], [1, 0], [1, 1]])
+    V = [[-0.62, 0.44, -0.91], [-0.81, -0.09, 0.02],
+         [0.74, -0.91, -0.60], [-0.82, -0.92, 0.71],
+         [-0.26, 0.68, 0.15], [0.80, -0.94, -0.83]]
+    w = [0, 0, 0, -1, 0, 0, 2]
+    solver.Extreme_Learning_Machine(V, w, x)

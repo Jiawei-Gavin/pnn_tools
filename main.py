@@ -108,10 +108,15 @@ if __name__ == '__main__':
     # solver.RBF_neural_network_class(x, c, w)
 
     # tutorial 07 -- Karhunen Loeve Transform
-    x = np.transpose([[1, 2, 1], [2, 3, 1], [3, 5, 1], [2, 2, 1]])
-    num = 2
+    # x = np.transpose([[1, 2, 1], [2, 3, 1], [3, 5, 1], [2, 2, 1]])
+    # num = 2
     # x = np.transpose([[0, 1], [3, 5], [5, 4], [5, 6], [8, 7], [9, 7]])
     # num = 1
-    solver.Karhunen_Loeve_Transform(x, num)
+    # solver.Karhunen_Loeve_Transform(x, num)
 
-
+    # tutorial 07 -- batch Ojas Learning rule
+    x = np.transpose([[0, 1], [3, 5], [5, 4], [5, 6], [8, 7], [9, 7]])
+    w = [-1, 0]
+    eta = 0.01
+    epoch = 6
+    solver.batch_Ojas_Learning_rule(x, w, eta, epoch)

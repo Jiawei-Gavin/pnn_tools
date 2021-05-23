@@ -155,7 +155,6 @@ class Solver:
                 a3 = copy.deepcopy(a[:, 2])
                 result.append((iteration, y[:, i], gx, gxclass, w, a1, a2, a3))
                 iteration = iteration + 1
-
         for row in result:
             table.add_row(row)
         print(table)
@@ -304,3 +303,23 @@ class Solver:
         table.add_row([y])
         print(table)
 
+    # tutorial 07 -- batch Ojas Learning rule
+    def batch_Ojas_Learning_rule(self, x, w, eta, epoch):
+        u = np.mean(np.mat(x), axis=1)
+        x_ = x - u
+        table = PrettyTable(('iteration', 'x', 'y', 'x-yw', 'ηy(x-yw)', "w"))
+        table.title = "--- batch Ojas Learning rule ---"
+        table.align = "c"
+        iteration = 1
+        for epochi in range(epoch):
+            eta_y_xyw = np.zeros((np.size(x_, 1), np.size(x_, 0)))
+            for i in range(np.size(x_, 1)):
+                y = w * x_[:, i]
+                x_yw = np.transpose(x_[:, i]) - y * w
+                eta_y_xyw[i, :] = eta * y * x_yw
+                table.add_row([iteration, np.transpose(x_[:, i]), y, x_yw, eta_y_xyw[i, :], ""])
+                iteration = iteration + 1
+            total_weight_change = sum(eta_y_xyw[:])
+            w = w + total_weight_change
+            table.add_row(["total weight change:", "", "", "", total_weight_change, w])
+        print(table)

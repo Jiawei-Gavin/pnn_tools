@@ -323,3 +323,28 @@ class Solver:
             w = w + total_weight_change
             table.add_row(["total weight change:", "", "", "", total_weight_change, w])
         print(table)
+
+    # tutorial 07 -- Fishers method -- LDA
+    def Fishers_method(self, x, classx, wt):
+        m = np.zeros((np.size(x, 0), np.size(np.unique(classx))))
+        for i in range(np.size(np.unique(classx))):
+            num = 0
+            tmp = np.mat([[0, 0]])
+            for j in range(np.size(classx)):
+                if np.unique(classx)[i] == classx[j]:
+                    num = num + 1
+                    tmp = tmp + x[:, j]
+            m[:, i] = tmp / num
+        sb = np.power((np.dot(wt, (m[:, 0] - m[:, 1]))), 2)
+        sw = 0
+        for j in range(np.size(classx)):
+            if 1 == classx[j]:
+                sw = sw + np.power(np.dot(wt, (x[:, j] - m[:, 0])), 2)
+            elif 2 == classx[j]:
+                sw = sw + np.power(np.dot(wt, (x[:, j] - m[:, 1])), 2)
+        Jw = sb / sw
+        table = PrettyTable(('m1', "m2", 'sb', 'sw', 'Jw'))
+        table.title = "--- Fishers method -- LDA ---"
+        table.align = "c"
+        table.add_row([m[:, 0], m[:, 1], sb, sw, Jw])
+        print(table)

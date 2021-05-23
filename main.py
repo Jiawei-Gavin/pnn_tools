@@ -115,8 +115,15 @@ if __name__ == '__main__':
     # solver.Karhunen_Loeve_Transform(x, num)
 
     # tutorial 07 -- batch Ojas Learning rule
-    x = np.transpose([[0, 1], [3, 5], [5, 4], [5, 6], [8, 7], [9, 7]])
-    w = [-1, 0]
-    eta = 0.01
-    epoch = 6
-    solver.batch_Ojas_Learning_rule(x, w, eta, epoch)
+    # x = np.transpose([[0, 1], [3, 5], [5, 4], [5, 6], [8, 7], [9, 7]])
+    # w = [-1, 0]
+    # eta = 0.01
+    # epoch = 6
+    # solver.batch_Ojas_Learning_rule(x, w, eta, epoch)
+
+    # tutorial 07 -- Fishers method -- LDA
+    x = np.transpose([[1, 2], [2, 1], [3, 3], [6, 5], [7, 8]])
+    classx = [1, 1, 1, 2, 2]
+    # wt = [-1, 5]
+    wt = [2, -3]
+    solver.Fishers_method(x, classx, wt)

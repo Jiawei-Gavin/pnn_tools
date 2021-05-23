@@ -101,9 +101,17 @@ if __name__ == '__main__':
     # t = np.transpose([[0, 1, 1, 0]])
     # solver.RBF_neural_network_w(x, c, t)
 
-
     # tutorial 04 -- RBF neural network -- give x,c,w -- compute class
     # x = np.transpose([[0.5, -0.1], [-0.2, 1.2], [0.8, 0.3], [1.8, 0.6]])
     # c = [[0, 0], [1, 1]]
     # w = np.transpose([[-2.5027, -2.5027, 2.8413]])
     # solver.RBF_neural_network_class(x, c, w)
+
+    # tutorial 07 -- Karhunen Loeve Transform
+    x = np.transpose([[1, 2, 1], [2, 3, 1], [3, 5, 1], [2, 2, 1]])
+    num = 2
+    # x = np.transpose([[0, 1], [3, 5], [5, 4], [5, 6], [8, 7], [9, 7]])
+    # num = 1
+    solver.Karhunen_Loeve_Transform(x, num)
+
+

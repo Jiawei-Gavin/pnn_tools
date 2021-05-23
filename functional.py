@@ -284,3 +284,23 @@ class Solver:
         table.align = "c"
         table.add_row([yx, z, clazz])
         print(table)
+
+    # tutorial 06 -- GAN
+
+    # tutorial 07 -- Karhunen Loeve Transform
+    def Karhunen_Loeve_Transform(self, x, num):
+        u = np.mean(np.mat(x), axis=1)
+        x_ = x - u
+        covariance = np.cov(x_, bias=True)
+        [E, V] = np.linalg.eigh(covariance)
+        E = np.mat(np.diag(E))
+        for i in range(np.size(V, 1) - num):
+            V = np.delete(V, 0, axis=1)
+            E = np.delete(E, 0, axis=1)
+        y = np.dot(np.transpose(V), x_)
+        table = PrettyTable(('y'))
+        table.title = "--- Karhunen Loeve Transform ---"
+        table.align = "c"
+        table.add_row([y])
+        print(table)
+

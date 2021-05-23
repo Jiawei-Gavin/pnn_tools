@@ -367,3 +367,15 @@ class Solver:
         table.align = "c"
         table.add_row([X, VX, Y, Z])
         print(table)
+
+    # tutorial 07 -- best sparse code
+    def best_sparse_code(self, Vt, x, yt):
+        y = np.transpose(yt)
+        Vt_y = np.dot(Vt, y)
+        x_Vt_y = x - np.transpose(np.mat(Vt_y))
+        error = np.linalg.norm(x_Vt_y)
+        table = PrettyTable(('x-Vt_y', "error"))
+        table.title = "--- best sparse code ---"
+        table.align = "c"
+        table.add_row([x_Vt_y, error])
+        print(table)

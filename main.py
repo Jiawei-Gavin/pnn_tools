@@ -146,10 +146,15 @@ if __name__ == '__main__':
     # solver.best_sparse_code(Vt, x, yt)
 
     # tutorial 08 -- SVM
+    x = np.transpose([[1, 1], [1, -1], [-1, 1], [-1, -1]])
+    y = [1, 1, -1, -1]
+    # x = np.transpose([[5, 1], [5, -1], [3, 0]])
+    # y = [1, 1, -1]
+    solver.SVM(x, y)
 
     # tutorial 09 -- ENSEMBLE -- AdaBoost algorithm
-    x = np.transpose([[1, 0], [-1, 0], [0, 1], [0, -1]])
-    h = [[1, -1, -1, -1], [-1, 1, 1, 1], [1, -1, 1, 1], [-1, 1, -1, -1],
-         [1, 1, -1, 1], [-1, -1, 1, -1], [-1, -1, -1, 1], [1, 1, 1, -1]]
-    epoch = 3
-    solver.adaBoost_algorithm(x, epoch, h)
+    # x = np.transpose([[1, 0], [-1, 0], [0, 1], [0, -1]])
+    # h = [[1, -1, -1, -1], [-1, 1, 1, 1], [1, -1, 1, 1], [-1, 1, -1, -1],
+    #      [1, 1, -1, 1], [-1, -1, 1, -1], [-1, -1, -1, 1], [1, 1, 1, -1]]
+    # epoch = 3
+    # solver.adaBoost_algorithm(x, epoch, h)

@@ -382,6 +382,35 @@ class Solver:
         print(table)
 
     # tutorial 08 -- SVM
+    def SVM(self, x, y):
+        lmb1, lmb2, lmb3, lmb4, lmb5, lmb6, w0 = symbols('lmb1 lmb2 lmb3 lmb4 lmb5 lmb6 w0')
+        x1, x2, x3, x4 = symbols('x1 x2 x3 x4')
+        lmb = [lmb1, lmb2, lmb3, lmb4, lmb5, lmb6]
+        lmb = lmb[0:np.size(np.mat(y), 1)]
+        x_ = [x1, x2, x3, x4]
+        sym_x = np.transpose(x_[0:np.size(x, 0)])
+        w = np.dot(np.mat(x), np.transpose(np.mat(np.multiply(lmb, y))))
+        lmb_y = np.sum(np.dot(lmb, y))
+        y_wxw0 = np.multiply(y, (np.dot(np.transpose(w), x) + w0))
+        one = np.ones((np.size(y_wxw0, 0), np.size(y_wxw0, 1)))
+        y_wxw0_1 = y_wxw0 - one
+        result = []
+        for i in range(np.size(y_wxw0_1, 1)):
+            result.append(np.diag(y_wxw0_1[:, i])[0])
+        result.append(lmb_y)
+        result_ = []
+        for i in range(np.size(lmb)):
+            result_.append(lmb[i])
+        result_.append(w0)
+        solution = solve(result, result_)
+        hyperplane = np.dot(np.transpose(w), sym_x) + w0
+        hyperplane = np.diag(hyperplane)[0]
+        hyperplane = re.subs(hyperplane, solution)
+        table = PrettyTable(('lmbda', 'w方程', 'y(wx+w0)-1方程', 'Σlmbda*y', '解方程结果', 'hyperplane'))
+        table.title = "--- SVM ---"
+        table.align = "c"
+        table.add_row([lmb, w, np.transpose(y_wxw0_1), lmb_y, solution, str(hyperplane) + ' == 0'])
+        print(table)
 
     # tutorial 09 -- ENSEMBLE -- AdaBoost algorithm
     def adaBoost_algorithm(self, x, epoch, h):

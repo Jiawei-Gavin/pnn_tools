@@ -2,6 +2,7 @@ from prettytable import PrettyTable
 import numpy as np
 import copy
 import math
+from sympy import *
 
 np.set_printoptions(suppress=True)
 
@@ -378,4 +379,44 @@ class Solver:
         table.title = "--- best sparse code ---"
         table.align = "c"
         table.add_row([x_Vt_y, error])
+        print(table)
+
+    # tutorial 08 -- SVM
+
+    # tutorial 09 -- ENSEMBLE -- AdaBoost algorithm
+    def adaBoost_algorithm(self, x, epoch, h):
+        h1x, h2x, h3x, h4x, h5x, h6x, h7x, h8x = symbols('h1x, h2x, h3x, h4x, h5x, h6x, h7x, h8x ')
+        hx = [h1x, h2x, h3x, h4x, h5x, h6x, h7x, h8x]
+        classifier = 0
+        w = 1 / np.size(x, 1) * np.ones((1, np.size(x, 1)))
+        table = PrettyTable(('epoch', "train_error", '本次选择的hx', 'ε', 'α', '未归一化权重', '归一化权重', 'classifier分类器'))
+        table.title = "--- ENSEMBLE -- AdaBoost algorithm ---"
+        table.align = "l"
+        for epochi in range(epoch):
+            tmp = copy.deepcopy(h)
+            train_error = np.zeros((1, np.size(np.mat(hx), 1)))
+            for i in range(np.size(np.mat(hx), 1)):
+                for j in range(len(h[i])):
+                    if tmp[i][j] < 0:
+                        tmp[i][j] = 1
+                    else:
+                        tmp[i][j] = 0
+                train_error[:, i] = np.dot(tmp[i], np.transpose(w))
+            train_error = train_error[0]
+            sort_index = [j[0] for j in sorted(enumerate(train_error), key=lambda k: k[1])]
+            sort_error = sorted(train_error)
+            index = sort_index[0]
+            if sort_error[0] > 0.5:
+                print("NO WAY!!!!!")
+                break
+            e1 = train_error[index]
+            a = 1 / 2 * log((1 - e1) / e1)
+            a = round(a, 4)
+            a_y_h = np.dot(a, np.mat(h)[index, :])
+            w_e_ayh = np.multiply(w, np.power(math.e, np.dot(-1, a_y_h)))
+            z = np.sum(w_e_ayh)
+            w_new = w_e_ayh / z
+            w = w_new
+            classifier = classifier + np.dot(a, hx[index])
+            table.add_row([epochi + 1, train_error, 'h' + str(index + 1) + 'x', e1, a, w_e_ayh, w_new, classifier])
         print(table)

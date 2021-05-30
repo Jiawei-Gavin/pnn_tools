@@ -137,10 +137,19 @@ if __name__ == '__main__':
     # solver.Extreme_Learning_Machine(V, w, x)
 
     # tutorial 07 -- best sparse code
-    Vt = [[0.4, 0.55, 0.5, -0.1, -0.5, 0.9, 0.5, 0.45],
-          [-0.6, -0.45, -0.5, 0.9, -0.5, 0.1, 0.5, 0.55]]
-    x = [[-0.05], [-0.95]]
+    # Vt = [[0.4, 0.55, 0.5, -0.1, -0.5, 0.9, 0.5, 0.45],
+    #       [-0.6, -0.45, -0.5, 0.9, -0.5, 0.1, 0.5, 0.55]]
+    # x = [[-0.05], [-0.95]]
     # yt = [1, 0, 0, 0, 1, 0, 0, 0]
     # yt = [0, 0, 1, 0, 0, 0, -1, 0]
-    yt = [0, 0, 0, -1, 0, 0, 0, 0]
-    solver.best_sparse_code(Vt, x, yt)
+    # yt = [0, 0, 0, -1, 0, 0, 0, 0]
+    # solver.best_sparse_code(Vt, x, yt)
+
+    # tutorial 08 -- SVM
+
+    # tutorial 09 -- ENSEMBLE -- AdaBoost algorithm
+    x = np.transpose([[1, 0], [-1, 0], [0, 1], [0, -1]])
+    h = [[1, -1, -1, -1], [-1, 1, 1, 1], [1, -1, 1, 1], [-1, 1, -1, -1],
+         [1, 1, -1, 1], [-1, -1, 1, -1], [-1, -1, -1, 1], [1, 1, 1, -1]]
+    epoch = 3
+    solver.adaBoost_algorithm(x, epoch, h)

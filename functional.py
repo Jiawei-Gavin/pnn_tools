@@ -455,7 +455,7 @@ class Solver:
         Iteration = 1
         table = PrettyTable(('Iteration', 'x', '||x-m1||', '||x-m2||', 'class', 'new_m1', 'new_m2'))
         table.title = "--- K-means algorithm ---"
-        while Iteration != 0:
+        while true:
             result = []
             clazz1 = []
             clazz2 = []
@@ -584,3 +584,49 @@ class Solver:
             table = PrettyTable(('x', '||x-m||', 'class'))
             table.add_row([test_x, test_m, test_m.index(np.min(test_m)) + 1])
             print(table)
+
+    # tutorial 10 -- fuzzy K-means algorithm
+    def fuzzy_Kmeans_algorithm(self, S, K, b, change, mu):
+        table = PrettyTable(('Iteration', 'x', '||x-mj||', '(1/||x-mj||)2', 'μ'))
+        table.title = "--- fuzzy K-means algorithm ---"
+        for j in range(np.size(S, 1)):
+            for i in range(K):
+                mu[i][j] = mu[i][j] / np.sum(mu[:, j])
+        Iteration = 1
+        last_m = []
+        while true:
+            result = []
+            m = []
+            for i in range(K):
+                mi_0 = 0
+                mi_1 = 0
+                for j in range(np.size(S, 1)):
+                    mi_0 += math.pow(mu[i][j], b) * S[:, j]
+                    mi_1 += np.power(mu[i][j], b)
+                mi = mi_0 / mi_1
+                m.append(mi)
+            for i in range(np.size(S, 1)):
+                x_m = []
+                _x_m = []
+                for j in range(np.size(np.mat(m), 0)):
+                    x_m.append(np.linalg.norm(S[:, i] - m[j]))
+                    _x_m.append(math.pow((1 / (np.linalg.norm(S[:, i] - m[j]))), (2 / (b - 1))))
+                for k in range(K):
+                    mu[k][i] = _x_m[k] / np.sum(_x_m)
+                result.append(
+                    ('', np.round(S[:, i], 4), np.round(x_m, 4), np.round(_x_m, 4), np.round(copy.copy(mu)[:, i], 4)))
+            change_num = K * 2
+            if Iteration > 1:
+                for i in range(K):
+                    if (float(m[i][0]) - float(last_m[i][0])) < change and (
+                            float(m[i][1]) - float(last_m[i][1])) < change:
+                        change_num -= 2
+            last_m = m
+            for row in result:
+                table.add_row(row)
+            table.add_row([Iteration, 'm:', np.round(m, 4), '', ''])
+            Iteration += 1
+            if change_num == 0:
+                table.add_row(['', '', 'Change is less than:', change, ''])
+                break
+        print(table)

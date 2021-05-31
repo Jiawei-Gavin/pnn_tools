@@ -177,10 +177,18 @@ if __name__ == '__main__':
     # solver.competitive_learning_algorithm(S, m1, m2, m3, eta, epoch, x, test_x)
 
     # tutorial 10 -- basic leader follower algorithm (without normalisation)
+    # S = np.transpose([[-1, 3], [1, 4], [0, 5], [4, -1], [3, 0], [5, 1]])
+    # theta = 3
+    # eta = 0.5
+    # epoch = 1
+    # x = np.transpose([[0, 5], [-1, 3], [-1, 3], [3, 0], [5, 1]])
+    # test_x = np.transpose([0, -2])
+    # solver.basic_leader_follower_algorithm(S, theta, eta, epoch, x, test_x)
+
+    # tutorial 10 -- fuzzy K-means algorithm
     S = np.transpose([[-1, 3], [1, 4], [0, 5], [4, -1], [3, 0], [5, 1]])
-    theta = 3
-    eta = 0.5
-    epoch = 1
-    x = np.transpose([[0, 5], [-1, 3], [-1, 3], [3, 0], [5, 1]])
-    test_x = np.transpose([0, -2])
-    solver.basic_leader_follower_algorithm(S, theta, eta, epoch, x, test_x)
+    K = 2
+    b = 2
+    change = 0.5
+    mu = np.transpose([[1, 0], [0.5, 0.5], [0.5, 0.5], [0.5, 0.5], [0.5, 0.5], [0, 1]])
+    solver.fuzzy_Kmeans_algorithm(S, K, b, change, mu)

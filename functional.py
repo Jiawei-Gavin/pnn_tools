@@ -454,7 +454,7 @@ class Solver:
     def Kmeans_algorithm(self, S, m1, m2):
         Iteration = 1
         table = PrettyTable(('Iteration', 'x', '||x-m1||', '||x-m2||', 'class', 'new_m1', 'new_m2'))
-        table.title = "--- SVM ---"
+        table.title = "--- K-means algorithm ---"
         while Iteration != 0:
             result = []
             clazz1 = []
@@ -487,3 +487,59 @@ class Solver:
                 break
             Iteration += 1
         print(table)
+
+    # tutorial 10 -- competitive learning algorithm (without normalisation)
+    def competitive_learning_algorithm(self, S, m1, m2, m3, eta, epoch, x, test_x=None):
+        table = PrettyTable(('Iteration', 'x', '||x-m1||', '||x-m2||', '||x-m3||', 'j', 'mj'))
+        table.title = "--- competitive learning algorithm (without normalisation) ---"
+        result = []
+        for epochi in range(epoch):
+            for i in range(np.size(x, 1)):
+                x_m1 = np.linalg.norm(x[:, i] - m1)
+                x_m2 = np.linalg.norm(x[:, i] - m2)
+                x_m3 = np.linalg.norm(x[:, i] - m3)
+                if x_m1 == min(x_m1, x_m2, x_m3):
+                    j = 1
+                    m1 = m1 + eta * (x[:, i] - m1)
+                    result.append((i, x[:, i], x_m1, x_m2, x_m3, j, 'm' + str(j) + str(m1)))
+                elif x_m2 == min(x_m1, x_m2, x_m3):
+                    j = 2
+                    m2 = m2 + eta * (x[:, i] - m2)
+                    result.append((i, x[:, i], x_m1, x_m2, x_m3, j, 'm' + str(j) + str(m2)))
+                elif x_m3 == min(x_m1, x_m2, x_m3):
+                    j = 3
+                    m3 = m3 + eta * (x[:, i] - m3)
+                    result.append((i + 1, x[:, i], x_m1, x_m2, x_m3, j, 'm' + str(j) + str(m3)))
+        for row in result:
+            table.add_row(row)
+        table.add_row(['m1:', m1, 'm2:', m2, 'm3:', m3, ''])
+        print(table)
+        clazz = []
+        for i in range(np.size(S, 1)):
+            x_m1 = np.linalg.norm(S[:, i] - m1)
+            x_m2 = np.linalg.norm(S[:, i] - m2)
+            x_m3 = np.linalg.norm(S[:, i] - m3)
+            if x_m1 == min(x_m1, x_m2, x_m3):
+                clazz.append((S[:, i], 1))
+            elif x_m2 == min(x_m1, x_m2, x_m3):
+                clazz.append((S[:, i], 2))
+            elif x_m3 == min(x_m1, x_m2, x_m3):
+                clazz.append((S[:, i], 3))
+        table = PrettyTable(('x', 'class'))
+        for row in clazz:
+            table.add_row(row)
+        print(table)
+        if test_x is not None:
+            test_x_m1 = np.linalg.norm(test_x - m1)
+            test_x_m2 = np.linalg.norm(test_x - m2)
+            test_x_m3 = np.linalg.norm(test_x - m3)
+            clazz = 0
+            if test_x_m1 == min(test_x_m1, test_x_m2, test_x_m3):
+                clazz = 1
+            elif test_x_m2 == min(test_x_m1, test_x_m2, test_x_m3):
+                clazz = 2
+            elif test_x_m3 == min(test_x_m1, test_x_m2, test_x_m3):
+                clazz = 3
+            table = PrettyTable(('test_x', '||test_x-m1||', '||test_x-m2||', '||test_x-m3||', 'class'))
+            table.add_row([test_x, test_x_m1, test_x_m2, test_x_m3, clazz])
+            print(table)

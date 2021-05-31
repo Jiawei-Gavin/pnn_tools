@@ -160,7 +160,18 @@ if __name__ == '__main__':
     # solver.adaBoost_algorithm(x, epoch, h)
 
     # tutorial 10 -- K-means algorithm
+    # S = np.transpose([[-1, 3], [1, 4], [0, 5], [4, -1], [3, 0], [5, 1]])
+    # m1 = np.transpose([-1, 3])
+    # m2 = np.transpose([5, 1])
+    # solver.Kmeans_algorithm(S,m1,m2)
+
+    # tutorial 10 -- competitive learning algorithm (without normalisation)
     S = np.transpose([[-1, 3], [1, 4], [0, 5], [4, -1], [3, 0], [5, 1]])
-    m1 = np.transpose([-1, 3])
-    m2 = np.transpose([5, 1])
-    solver.Kmeans_algorithm(S,m1,m2)
+    m1 = S[:, 0] / 2
+    m2 = S[:, 2] / 2
+    m3 = S[:, 4] / 2
+    eta = 0.1
+    epoch = 1
+    x = np.transpose([[0, 5], [-1, 3], [-1, 3], [3, 0], [5, 1]])
+    test_x = np.transpose([0, -2])
+    solver.competitive_learning_algorithm(S, m1, m2, m3, eta, epoch, x, test_x)

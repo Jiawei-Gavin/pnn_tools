@@ -501,11 +501,11 @@ class Solver:
                 if x_m1 == min(x_m1, x_m2, x_m3):
                     j = 1
                     m1 = m1 + eta * (x[:, i] - m1)
-                    result.append((i, x[:, i], x_m1, x_m2, x_m3, j, 'm' + str(j) + str(m1)))
+                    result.append((i + 1, x[:, i], x_m1, x_m2, x_m3, j, 'm' + str(j) + str(m1)))
                 elif x_m2 == min(x_m1, x_m2, x_m3):
                     j = 2
                     m2 = m2 + eta * (x[:, i] - m2)
-                    result.append((i, x[:, i], x_m1, x_m2, x_m3, j, 'm' + str(j) + str(m2)))
+                    result.append((i + 1, x[:, i], x_m1, x_m2, x_m3, j, 'm' + str(j) + str(m2)))
                 elif x_m3 == min(x_m1, x_m2, x_m3):
                     j = 3
                     m3 = m3 + eta * (x[:, i] - m3)
@@ -542,4 +542,45 @@ class Solver:
                 clazz = 3
             table = PrettyTable(('test_x', '||test_x-m1||', '||test_x-m2||', '||test_x-m3||', 'class'))
             table.add_row([test_x, test_x_m1, test_x_m2, test_x_m3, clazz])
+            print(table)
+
+    # tutorial 10 -- basic leader follower algorithm (without normalisation)
+    def basic_leader_follower_algorithm(self, S, theta, eta, epoch, x, test_x=None):
+        m = [x[:, 0]]
+        table = PrettyTable(('Iteration', 'x', 'Cluster Centres', '||x-mj||', 'j', '||x-mj||<θ', 'Update'))
+        table.title = "--- basic leader follower algorithm (without normalisation) ---"
+        result = []
+        for epochi in range(epoch):
+            for i in range(np.size(x, 1)):
+                x_m = []
+                num_m = np.size(np.mat(m), 0)
+                for k in range(num_m):
+                    x_m.append(np.linalg.norm(x[:, i] - m[k]))
+                j = x_m.index(np.min(x_m)) + 1
+                if x_m[j - 1] < theta:
+                    m[j - 1] = m[j - 1] + eta * (x[:, i] - m[j - 1])
+                    result.append((i + 1, x[:, i], np.array(m), x_m, j, x_m[j - 1] < theta, np.array(m)))
+                else:
+                    m.append(x[:, i])
+                    result.append((i + 1, x[:, i], np.array(m), x_m, j, x_m[j - 1] < theta, np.array(m)))
+        for row in result:
+            table.add_row(row)
+        table.add_row(['m', np.array(m), '', '', '', '', ''])
+        print(table)
+        table = PrettyTable(('x', '||x-m||', 'class'))
+        result = []
+        for i in range(np.size(S, 1)):
+            x_m = []
+            for j in range(np.size(np.mat(m), 0)):
+                x_m.append(np.linalg.norm(S[:, i] - m[j]))
+            result.append((S[:, i], x_m, x_m.index(np.min(x_m)) + 1))
+        for row in result:
+            table.add_row(row)
+        print(table)
+        if test_x is not None:
+            test_m = []
+            for j in range(np.size(np.mat(m), 0)):
+                test_m.append(np.linalg.norm(test_x - m[j]))
+            table = PrettyTable(('x', '||x-m||', 'class'))
+            table.add_row([test_x, test_m, test_m.index(np.min(test_m)) + 1])
             print(table)

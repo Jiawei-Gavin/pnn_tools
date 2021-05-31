@@ -449,3 +449,41 @@ class Solver:
             classifier = classifier + np.dot(a, hx[index])
             table.add_row([epochi + 1, train_error, 'h' + str(index + 1) + 'x', e1, a, w_e_ayh, w_new, classifier])
         print(table)
+
+    # tutorial 10 -- K-means algorithm
+    def Kmeans_algorithm(self, S, m1, m2):
+        Iteration = 1
+        table = PrettyTable(('Iteration', 'x', '||x-m1||', '||x-m2||', 'class', 'new_m1', 'new_m2'))
+        table.title = "--- SVM ---"
+        while Iteration != 0:
+            result = []
+            clazz1 = []
+            clazz2 = []
+            for i in range(np.size(S, 1)):
+                x_m1 = np.linalg.norm(S[:, i] - m1)
+                x_m2 = np.linalg.norm(S[:, i] - m2)
+                if x_m1 < x_m2:
+                    clazz = 1
+                    clazz1.append(i)
+                else:
+                    clazz = 2
+                    clazz2.append(i)
+                result.append(('', S[:, i], x_m1, x_m2, clazz, '', ''))
+            old_m1 = copy.deepcopy(m1)
+            old_m2 = copy.deepcopy(m2)
+            m1 = 0
+            m2 = 0
+            for i in range(len(clazz1)):
+                m1 += S[:, clazz1[i]]
+                m2 += S[:, clazz2[i]]
+            m1 = m1 / len(clazz1)
+            m2 = m2 / len(clazz2)
+
+            result[0] = np.append([Iteration], np.array(result[0][1:], dtype=object))
+            for row in result:
+                table.add_row(row)
+            table.add_row(['', '', '', '', '', m1, m2])
+            if (old_m1 == m1).all() and (old_m2 == m2).all():
+                break
+            Iteration += 1
+        print(table)

@@ -146,11 +146,11 @@ if __name__ == '__main__':
     # solver.best_sparse_code(Vt, x, yt)
 
     # tutorial 08 -- SVM
-    x = np.transpose([[1, 1], [1, -1], [-1, 1], [-1, -1]])
-    y = [1, 1, -1, -1]
+    # x = np.transpose([[1, 1], [1, -1], [-1, 1], [-1, -1]])
+    # y = [1, 1, -1, -1]
     # x = np.transpose([[5, 1], [5, -1], [3, 0]])
     # y = [1, 1, -1]
-    solver.SVM(x, y)
+    # solver.SVM(x, y)
 
     # tutorial 09 -- ENSEMBLE -- AdaBoost algorithm
     # x = np.transpose([[1, 0], [-1, 0], [0, 1], [0, -1]])
@@ -158,3 +158,9 @@ if __name__ == '__main__':
     #      [1, 1, -1, 1], [-1, -1, 1, -1], [-1, -1, -1, 1], [1, 1, 1, -1]]
     # epoch = 3
     # solver.adaBoost_algorithm(x, epoch, h)
+
+    # tutorial 10 -- K-means algorithm
+    S = np.transpose([[-1, 3], [1, 4], [0, 5], [4, -1], [3, 0], [5, 1]])
+    m1 = np.transpose([-1, 3])
+    m2 = np.transpose([5, 1])
+    solver.Kmeans_algorithm(S,m1,m2)

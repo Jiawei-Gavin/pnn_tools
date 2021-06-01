@@ -186,9 +186,19 @@ if __name__ == '__main__':
     # solver.basic_leader_follower_algorithm(S, theta, eta, epoch, x, test_x)
 
     # tutorial 10 -- fuzzy K-means algorithm
-    S = np.transpose([[-1, 3], [1, 4], [0, 5], [4, -1], [3, 0], [5, 1]])
-    K = 2
-    b = 2
-    change = 0.5
-    mu = np.transpose([[1, 0], [0.5, 0.5], [0.5, 0.5], [0.5, 0.5], [0.5, 0.5], [0, 1]])
-    solver.fuzzy_Kmeans_algorithm(S, K, b, change, mu)
+    # S = np.transpose([[-1, 3], [1, 4], [0, 5], [4, -1], [3, 0], [5, 1]])
+    # K = 2
+    # b = 2
+    # change = 0.5
+    # mu = np.transpose([[1, 0], [0.5, 0.5], [0.5, 0.5], [0.5, 0.5], [0.5, 0.5], [0, 1]])
+    # solver.fuzzy_Kmeans_algorithm(S, K, b, change, mu)
+
+    # tutorial 10 -- agglomeration hierarchical algorithm
+    # 这部分代码不👌，只是用来走通这个算法流程
+    # 只适用以下数据 -- tutorial 10 最后一题
+    # 主要思想是找到最小的欧几里德距离然后合并cluster
+    # 合并后的列数据为最小的欧几里德距离
+    # 合并进行c次
+    x = np.transpose([[-1, 3], [1, 2], [0, 1], [4, 0], [5, 4], [3, 2]])
+    # c = 3
+    solver.agglomeration_hierarchical_algorithm(x)

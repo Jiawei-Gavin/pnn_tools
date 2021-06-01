@@ -1,3 +1,5 @@
+import sys
+
 from prettytable import PrettyTable
 import numpy as np
 import copy
@@ -630,3 +632,125 @@ class Solver:
                 table.add_row(['', '', 'Change is less than:', change, ''])
                 break
         print(table)
+
+    # tutorial 10 -- agglomeration hierarchical algorithm
+    def agglomeration_hierarchical_algorithm(self, x):
+        distance = []
+        Iteration = 1
+        for i in range(np.size(x, 1)):
+            distance_ = []
+            for k in range(i + 1):
+                distance_.append(sys.maxsize)
+            for j in range(i + 1, np.size(x, 1)):
+                distance_.append(np.linalg.norm(x[:, i] - x[:, j]))
+            distance.append(distance_)
+        distance = np.transpose(np.mat(distance))
+        table = PrettyTable(('x', 'cluster'))
+        for i in range(np.size(x, 1)):
+            table.add_column(str(i + 1), [])
+        for i in range(np.size(x, 1)):
+            result = []
+            result.append(x[:, i])
+            result.append(i + 1)
+            for j in range(np.size(x, 1)):
+                if distance[:, j][i] == sys.maxsize:
+                    result.append('-')
+                else:
+                    result.append(distance[:, j][i])
+            table.add_row(result)
+        print(table)
+
+        cluster = []
+        cluster_i, cluster_j = np.where(distance == np.min(distance))
+        cluster.append(cluster_i)
+        cluster.append(cluster_j)
+        distance = np.delete(distance, cluster_i, axis=0)
+        distance = np.delete(distance, cluster_j + 1, axis=1)
+        for i in range(cluster_i[0] + 1, np.size(x, 1)):
+            distance_cluster = []
+            for k in range(np.size(cluster)):
+                distance_cluster.append(np.linalg.norm(x[:, cluster[k][0]] - x[:, i]))
+            distance[:, cluster_j[0]][i - 1] = np.min(distance_cluster)
+        Iteration += 1
+        table = PrettyTable(('x', 'cluster'))
+        for i in range(np.size(x, 1) - 1):
+            if i == cluster_j:
+                q = str(cluster[0][0] + 1) + str(cluster[1][0] + 1)
+                table.add_column(q, [])
+            if i < cluster_j:
+                table.add_column(str(i + 1), [])
+            elif i > cluster_j:
+                table.add_column(str(i + 2), [])
+            if i == np.size(x, 1) - 1:
+                continue
+        for i in range(np.size(x, 1)):
+            result = []
+            if i == cluster_j:
+                p = str(x[:, cluster[0][0]]) + str(x[:, i + cluster[1][0]])
+                result.append(p)
+                q = str(cluster[0][0] + 1) + str(cluster[1][0] + 1)
+                result.append(q)
+            if i < cluster_j:
+                result.append(x[:, i])
+                result.append(i + 1)
+            elif i > cluster_j:
+                result.append(x[:, i])
+                result.append(i + 2)
+            if i == np.size(x, 1) - 1:
+                continue
+            for j in range(np.size(x, 1) - 1):
+                if distance[:, j][i] == sys.maxsize:
+                    result.append('-')
+                else:
+                    result.append(distance[:, j][i])
+            table.add_row(result)
+        print(table)
+
+        cluster_i, cluster_j = np.where(distance == np.min(distance))
+        cluster.append(cluster_i + 1)
+        distance = np.delete(distance, cluster_i, axis=0)
+        distance = np.delete(distance, cluster_i, axis=1)
+        for i in range(cluster_i[0] - 1, np.size(x, 1) - 1):
+            distance_cluster = []
+            for k in range(np.size(cluster)):
+                distance_cluster.append(np.linalg.norm(x[:, cluster[k][0]] - x[:, i]))
+            distance[:, cluster_j[0]][i - 1] = np.min(distance_cluster)
+        Iteration += 1
+        table = PrettyTable(('x', 'cluster'))
+        for i in range(np.size(x, 1) - 2):
+            if i == cluster_j:
+                q = str(cluster[0][0] + 1) + str(cluster[1][0] + 1) + str(cluster[2][0] + 1)
+                table.add_column(q, [])
+            if i < cluster_j:
+                table.add_column(str(i + 1), [])
+            elif i > cluster_j:
+                table.add_column(str(i + 2), [])
+            if i == np.size(x, 1) - 1:
+                continue
+        for i in range(np.size(x, 1)):
+            result = []
+            if i == cluster_j:
+                p = str(x[:, cluster[0][0]]) + str(x[:, cluster[1][0]]) + str(x[:, cluster[2][0]])
+                result.append(p)
+                q = str(cluster[0][0] + 1) + str(cluster[1][0] + 1) + str(cluster[2][0] + 1)
+                result.append(q)
+            if i == np.size(x, 1) - 1 or i == np.size(x, 1) - 2:
+                continue
+            if i < cluster_j:
+                result.append(x[:, i])
+                result.append(i + 1)
+            elif i > cluster_j:
+                result.append(x[:, i + 1])
+                result.append(i + 2)
+            for j in range(np.size(x, 1) - 2):
+                if distance[:, j][i] == sys.maxsize:
+                    result.append('-')
+                else:
+                    result.append(distance[:, j][i])
+            table.add_row(result)
+        print(table)
+
+        cluster_i, cluster_j = np.where(distance == np.min(distance))
+        cluster.append(cluster_j[0])
+        print(np.array(cluster, dtype=int) + 1)
+

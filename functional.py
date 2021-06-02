@@ -251,8 +251,9 @@ class Solver:
 
     # tutorial 04 -- RBF neural network -- give x,c,t -- compute w
     def RBF_neural_network_w(self, x, c, t):
-        pmax = np.linalg.norm(c)
+        pmax = np.linalg.norm(np.mat(c[0]) - np.mat(c[1]))
         yx = np.ones((np.size(x, 1), np.size(x, 0) + 1))
+
         for i in range(np.size(x, 1)):
             yx[:, 0][i] = math.exp(
                 -np.power(np.linalg.norm(x[:, i] - c[0]), 2) / (2 * math.pow((pmax / math.sqrt(2 * 2)), 2)))
@@ -267,7 +268,7 @@ class Solver:
 
     # tutorial 04 -- RBF neural network -- give x,c,w -- compute class
     def RBF_neural_network_class(self, x, c, w):
-        pmax = np.linalg.norm(c)
+        pmax = np.linalg.norm(np.mat(c[0]) - np.mat(c[1]))
         yx = np.ones((np.size(x, 1), np.size(x, 0) + 1))
         for i in range(np.size(x, 1)):
             yx[:, 0][i] = math.exp(
@@ -753,4 +754,3 @@ class Solver:
         cluster_i, cluster_j = np.where(distance == np.min(distance))
         cluster.append(cluster_j[0])
         print(np.array(cluster, dtype=int) + 1)
-

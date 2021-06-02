@@ -40,6 +40,13 @@ if __name__ == '__main__':
     # eta = 1
     # solver.sequential_perceptron_learning_algorithm(epoch, x, classx, a, eta, bool(0))
 
+    # x = np.transpose([[5, 1], [5, -1], [7, 0], [3, 0], [2, 1], [1, -1]])
+    # epoch = 2
+    # classx = [1, 1, 1, -1, -1, -1]
+    # a = np.transpose([-25, 5, 2])
+    # eta = 1
+    # solver.sequential_perceptron_learning_algorithm(epoch, x, classx, a, eta, bool(0))
+
     # tutorial 02 -- sequential multiclass perceptron learning algorithm
     # x = np.transpose([[1, 1], [2, 0], [0, 2], [-1, 1], [-1, -1]])
     # epoch = 3
@@ -71,6 +78,13 @@ if __name__ == '__main__':
     # eta = 1
     # t = [0, 0, 0, 1]
     # solver.sequential_Delta_learning_rule(epoch, w, x, t, eta)
+    #
+    # x = np.transpose([[0, 2], [2, 1], [-3, 1], [-2, -1], [0, -1]])
+    # w = [2, 0.5, 1]
+    # epoch = 5
+    # eta = 1
+    # t = [1, 1, 0, 0, 0]
+    # solver.sequential_Delta_learning_rule(epoch, w, x, t, eta)
 
     # tutorial 03 -- batch Delta learning rule
     # x = np.transpose([[0], [1]])
@@ -87,18 +101,29 @@ if __name__ == '__main__':
     # wkj = [[-1.1444, 0.3115, -9.9812], [0.0106, 11.5477, 2.6479]]
     # wk0 = [[2.5230], [2.6463]]
     # solver.neural_network(x, wji, wj0, wkj, wk0)
-
+    #
     # x = np.transpose([[0.1, 0.9]])
     # wji = [[0.5, 0], [0.3, -0.7]]
     # wj0 = [[0.2], [0]]
     # wkj = [[0.8, 1.6]]
     # wk0 = [[-0.4]]
     # solver.neural_network(x, wji, wj0, wkj, wk0, "Symmetric_sigmoid", "Symmetric_sigmoid")
+    # x = np.transpose([[2, -6]])
+    # wji = np.transpose([[1, 0.5], [0, -3]])
+    # wj0 = [[0], [-2]]
+    # wkj = [[6, 7]]
+    # wk0 = [[8]]
+    # solver.neural_network(x, wji, wj0, wkj, wk0, "Logarithmic_sigmoid", "Logarithmic_sigmoid")
 
     # tutorial 04 -- RBF neural network -- give x,c,t -- compute w
-    # x = np.transpose([[0, 0], [0, 1], [1, 0], [1, 1]])
-    # c = [[0, 0], [1, 1]]
-    # t = np.transpose([[0, 1, 1, 0]])
+    x = np.transpose([[0, 0], [0, 1], [1, 0], [1, 1]])
+    c = [[0, 0], [1, 1]]
+    t = np.transpose([[0, 1, 1, 0]])
+    solver.RBF_neural_network_w(x, c, t)
+    #
+    # x = np.transpose([[-1, -1], [-1, 1], [1, -1], [1, 1]])
+    # c = [[-1, -1], [1, 1]]
+    # t = np.transpose([[-1, 1, 1, -1]])
     # solver.RBF_neural_network_w(x, c, t)
 
     # tutorial 04 -- RBF neural network -- give x,c,w -- compute class
@@ -124,8 +149,9 @@ if __name__ == '__main__':
     # tutorial 07 -- Fishers method -- LDA
     # x = np.transpose([[1, 2], [2, 1], [3, 3], [6, 5], [7, 8]])
     # classx = [1, 1, 1, 2, 2]
-    # # wt = [-1, 5]
-    # wt = [2, -3]
+    # wt = [-1, 5]
+    # solver.Fishers_method(x, classx, wt)
+    # wt = [2, -6]
     # solver.Fishers_method(x, classx, wt)
 
     # tutorial 07 -- Extreme Learning Machine
@@ -148,6 +174,12 @@ if __name__ == '__main__':
     # tutorial 08 -- SVM
     # x = np.transpose([[1, 1], [1, -1], [-1, 1], [-1, -1]])
     # y = [1, 1, -1, -1]
+    # x = np.transpose([[5, 1], [5, -1], [3, 0]])
+    # y = [1, 1, -1]
+    # solver.SVM(x, y)
+    # x = np.transpose([[1, 2], [7, 8]])
+    # y = [1, -1]
+    # solver.SVM(x, y)
     # x = np.transpose([[5, 1], [5, -1], [3, 0]])
     # y = [1, 1, -1]
     # solver.SVM(x, y)
@@ -199,6 +231,6 @@ if __name__ == '__main__':
     # 主要思想是找到最小的欧几里德距离然后合并cluster
     # 合并后的列数据为最小的欧几里德距离
     # 合并进行c次
-    x = np.transpose([[-1, 3], [1, 2], [0, 1], [4, 0], [5, 4], [3, 2]])
-    # c = 3
-    solver.agglomeration_hierarchical_algorithm(x)
+    # x = np.transpose([[-1, 3], [1, 2], [0, 1], [4, 0], [5, 4], [3, 2]])
+    # # c = 3
+    # solver.agglomeration_hierarchical_algorithm(x)

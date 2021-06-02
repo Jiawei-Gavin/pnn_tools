@@ -116,10 +116,10 @@ if __name__ == '__main__':
     # solver.neural_network(x, wji, wj0, wkj, wk0, "Logarithmic_sigmoid", "Logarithmic_sigmoid")
 
     # tutorial 04 -- RBF neural network -- give x,c,t -- compute w
-    x = np.transpose([[0, 0], [0, 1], [1, 0], [1, 1]])
-    c = [[0, 0], [1, 1]]
-    t = np.transpose([[0, 1, 1, 0]])
-    solver.RBF_neural_network_w(x, c, t)
+    # x = np.transpose([[0, 0], [0, 1], [1, 0], [1, 1]])
+    # c = [[0, 0], [1, 1]]
+    # t = np.transpose([[0, 1, 1, 0]])
+    # solver.RBF_neural_network_w(x, c, t)
     #
     # x = np.transpose([[-1, -1], [-1, 1], [1, -1], [1, 1]])
     # c = [[-1, -1], [1, 1]]
@@ -141,6 +141,11 @@ if __name__ == '__main__':
 
     # tutorial 07 -- batch Ojas Learning rule
     # x = np.transpose([[0, 1], [3, 5], [5, 4], [5, 6], [8, 7], [9, 7]])
+    # w = [-1, 0]
+    # eta = 0.01
+    # epoch = 2
+    # solver.batch_Ojas_Learning_rule(x, w, eta, epoch)
+    # x = np.transpose([[1, 2], [3, 5], [5, 4], [8, 7], [11, 7]])
     # w = [-1, 0]
     # eta = 0.01
     # epoch = 6
@@ -196,6 +201,10 @@ if __name__ == '__main__':
     # m1 = np.transpose([-1, 3])
     # m2 = np.transpose([5, 1])
     # solver.Kmeans_algorithm(S,m1,m2)
+    S = np.transpose([[1, 0], [0, 2], [1, 3], [3, 0], [3, 1]])
+    m1 = np.transpose([3, 2])
+    m2 = np.transpose([4, 0])
+    solver.Kmeans_algorithm(S, m1, m2)
 
     # tutorial 10 -- competitive learning algorithm (without normalisation)
     # S = np.transpose([[-1, 3], [1, 4], [0, 5], [4, -1], [3, 0], [5, 1]])

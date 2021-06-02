@@ -478,6 +478,7 @@ class Solver:
             m2 = 0
             for i in range(len(clazz1)):
                 m1 += S[:, clazz1[i]]
+            for i in range(len(clazz2)):
                 m2 += S[:, clazz2[i]]
             m1 = m1 / len(clazz1)
             m2 = m2 / len(clazz2)

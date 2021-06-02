@@ -201,10 +201,10 @@ if __name__ == '__main__':
     # m1 = np.transpose([-1, 3])
     # m2 = np.transpose([5, 1])
     # solver.Kmeans_algorithm(S,m1,m2)
-    S = np.transpose([[1, 0], [0, 2], [1, 3], [3, 0], [3, 1]])
-    m1 = np.transpose([3, 2])
-    m2 = np.transpose([4, 0])
-    solver.Kmeans_algorithm(S, m1, m2)
+    # S = np.transpose([[1, 0], [0, 2], [1, 3], [3, 0], [3, 1]])
+    # m1 = np.transpose([3, 2])
+    # m2 = np.transpose([4, 0])
+    # solver.Kmeans_algorithm(S, m1, m2)
 
     # tutorial 10 -- competitive learning algorithm (without normalisation)
     # S = np.transpose([[-1, 3], [1, 4], [0, 5], [4, -1], [3, 0], [5, 1]])
@@ -215,7 +215,14 @@ if __name__ == '__main__':
     # epoch = 1
     # x = np.transpose([[0, 5], [-1, 3], [-1, 3], [3, 0], [5, 1]])
     # test_x = np.transpose([0, -2])
-    # solver.competitive_learning_algorithm(S, m1, m2, m3, eta, epoch, x, test_x)
+    # solver.competitive_learning_algorithm3(S, m1, m2, m3, eta, epoch, x, test_x)
+    S = np.transpose([[1, 0], [0, 2], [1, 3], [3, 0], [3, 1]])
+    m1 = np.transpose([1, 1])
+    m2 = np.transpose([2, 2])
+    eta = 0.5
+    epoch = 1
+    x = np.transpose([[1, 0], [0, 2], [1, 3], [3, 0], [3, 1]])
+    solver.competitive_learning_algorithm2(S, m1, m2, eta, epoch, x)
 
     # tutorial 10 -- basic leader follower algorithm (without normalisation)
     # S = np.transpose([[-1, 3], [1, 4], [0, 5], [4, -1], [3, 0], [5, 1]])
